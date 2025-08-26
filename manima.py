@@ -189,14 +189,14 @@ BASE_DIR = os.path.dirname(__file__)
 slides = [
     {"img": os.path.join(BASE_DIR, "images/manima_poribarer_sathe.jpg"), "caption": "মানিমা পরিবারের সাথে"},
     {"img": os.path.join(BASE_DIR, "images/manima_tar_barite.jpg"), "caption": "মানিমা তার বাড়িতে"},
-    {"img": os.path.join(BASE_DIR, "images/manima_borodidir_sathe.jpeg"), "caption": "মানিমা বড়দিদির সাথে"},
-    {"img": os.path.join(BASE_DIR, "images/manima_mahisadal_rajbariir_samne.jpeg"), "caption": "মানিমা মহিষাদল রাজবাড়ির সামনে"},
+    # {"img": os.path.join(BASE_DIR, "images/manima_borodidir_sathe.jpeg"), "caption": "মানিমা বড়দিদির সাথে"},
+    # {"img": os.path.join(BASE_DIR, "images/manima_mahisadal_rajbariir_samne.jpeg"), "caption": "মানিমা মহিষাদল রাজবাড়ির সামনে"},
     {"img": os.path.join(BASE_DIR, "images/manima_amr_sathe.jpg"), "caption": "মানিমা আমার সাথে"},
-    {"img": os.path.join(BASE_DIR, "images/manima_meshomonir_Sathe.jpeg"), "caption": "মানিমা মেশোমণির সাথে"},
-    {"img": os.path.join(BASE_DIR, "images/manima_tar_mejoboner_sathe.jpeg"), "caption": "মানিমা মেজোবোনের সাথে"},
-    {"img": os.path.join(BASE_DIR, "images/manima_mahisadal_rajbariir_samne.jpeg"), "caption": "মানিমা মহিষাদল রাজবাড়ির সামনে"},
-    {"img": os.path.join(BASE_DIR, "images/purono_manima.jpeg"), "caption": "পুরোনো মানিমা"},
-    {"img": os.path.join(BASE_DIR, "images/manima_tar_mayer_sathe.jpeg"), "caption": "মানিমা তার মায়ের সাথে"},
+    # {"img": os.path.join(BASE_DIR, "images/manima_meshomonir_Sathe.jpeg"), "caption": "মানিমা মেশোমণির সাথে"},
+    # {"img": os.path.join(BASE_DIR, "images/manima_tar_mejoboner_sathe.jpeg"), "caption": "মানিমা মেজোবোনের সাথে"},
+    # {"img": os.path.join(BASE_DIR, "images/manima_mahisadal_rajbariir_samne.jpeg"), "caption": "মানিমা মহিষাদল রাজবাড়ির সামনে"},
+    # {"img": os.path.join(BASE_DIR, "images/purono_manima.jpeg"), "caption": "পুরোনো মানিমা"},
+    # {"img": os.path.join(BASE_DIR, "images/manima_tar_mayer_sathe.jpeg"), "caption": "মানিমা তার মায়ের সাথে"},
 ]
 
 # -------- Slideshow Logic --------
