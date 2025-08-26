@@ -183,29 +183,71 @@ import streamlit as st
 import time, os
 
 # -------- Base Path --------
-BASE_DIR = os.path.dirname(__file__)
+import streamlit as st
+import time
+import base64
+from pathlib import Path
 
-# -------- Slides Data --------
-slides = [
-    {"img": os.path.join(BASE_DIR, "images/manima_poribarer_sathe.jpg"), "caption": "মানিমা পরিবারের সাথে"},
-    {"img": os.path.join(BASE_DIR, "images/manima_tar_barite.jpg"), "caption": "মানিমা তার বাড়িতে"},
-    # {"img": os.path.join(BASE_DIR, "images/manima_borodidir_sathe.jpeg"), "caption": "মানিমা বড়দিদির সাথে"},
-    # {"img": os.path.join(BASE_DIR, "images/manima_mahisadal_rajbariir_samne.jpeg"), "caption": "মানিমা মহিষাদল রাজবাড়ির সামনে"},
-    {"img": os.path.join(BASE_DIR, "images/manima_amr_sathe.jpg"), "caption": "মানিমা আমার সাথে"},
-    # {"img": os.path.join(BASE_DIR, "images/manima_meshomonir_Sathe.jpeg"), "caption": "মানিমা মেশোমণির সাথে"},
-    # {"img": os.path.join(BASE_DIR, "images/manima_tar_mejoboner_sathe.jpeg"), "caption": "মানিমা মেজোবোনের সাথে"},
-    # {"img": os.path.join(BASE_DIR, "images/manima_mahisadal_rajbariir_samne.jpeg"), "caption": "মানিমা মহিষাদল রাজবাড়ির সামনে"},
-    # {"img": os.path.join(BASE_DIR, "images/purono_manima.jpeg"), "caption": "পুরোনো মানিমা"},
-    # {"img": os.path.join(BASE_DIR, "images/manima_tar_mayer_sathe.jpeg"), "caption": "মানিমা তার মায়ের সাথে"},
+# -------- Init Session State --------
+if "slideshow_played" not in st.session_state:
+    st.session_state.slideshow_played = False
+
+# -------- Image List --------
+image_files = [
+    Path("IMG_20250814_131006557_HDR (1).jpg"),
+    Path("IMG_20250814_131010777_HDR (1).jpg"),
+    Path("IMG_20250814_131228251_HDR (1).jpg"),
+    Path("IMG_20250814_131240651_HDR (1).jpg"),
+    Path("IMG_20250814_131304967_HDR (1).jpg"),
+    Path("IMG_20250814_131314266_HDR (1).jpg"),
+    Path("IMG_20250814_131333936_HDR (1).jpg"),
+    Path("IMG_20250814_131347993_HDR (1).jpg"),
+    Path("IMG_20250814_131351182_HDR (1).jpg"),
+    Path("IMG_20250814_131357386_HDR (1).jpg"),
+    Path("IMG_20250814_131502428_HDR.jpg"),
+    Path("IMG_20250814_132259749_HDR (1) (1).jpg"),
+    Path("IMG_20250814_132405431_HDR (1).jpg"),
+    Path("IMG_20250814_132724222_HDR (1) (1).jpg"),
+    Path("IMG_20250814_132735942_HDR (1).jpg"),
 ]
 
-# -------- Slideshow Logic --------
-st.title("🎉 মানিমার বিশেষ স্লাইডশো 🎉")
+# -------- Slideshow --------
+st.title("🌸 মানিমার জন্য বিশেষ স্লাইডশো 🌸")
 
-index = int(time.time() / 3) % len(slides)   # প্রতি 3 সেকেন্ডে slide পাল্টাবে
-current = slides[index]
+if not st.session_state.slideshow_played:
+    ph = st.empty()
+    for img in image_files:
+        with open(str(img), "rb") as image_file:
+            encoded_string = base64.b64encode(image_file.read()).decode()
+        img_html = f"""
+        <div style='text-align:center;'>
+            <img src="data:image/jpeg;base64,{encoded_string}" 
+                 style="height:400px; border-radius:12px; box-shadow:0px 4px 12px rgba(0,0,0,0.3);" />
+            <p style='color:#FF1493; font-weight:bold; font-size:18px; margin-top:10px;'>
+                ❤️ মা – ছোটো থেকে বড়ো হয়ে ওঠার কিছু মুহূর্ত
+            </p>
+        </div>
+        """
+        ph.markdown(img_html, unsafe_allow_html=True)
+        time.sleep(3)
+    st.session_state.slideshow_played = True
 
-st.image(current["img"], caption=current["caption"], use_container_width=True)
+else:
+    # Last image stays after autoplay
+    last_img = image_files[-1]
+    with open(str(last_img), "rb") as image_file:
+        encoded_string = base64.b64encode(image_file.read()).decode()
+    img_html = f"""
+    <div style='text-align:center;'>
+        <img src="data:image/jpeg;base64,{encoded_string}" 
+             style="height:400px; border-radius:12px; box-shadow:0px 4px 12px rgba(0,0,0,0.3);" />
+        <p style='color:#FF1493; font-weight:bold; font-size:18px; margin-top:10px;'>
+            ❤️ মা – {last_img.name}
+        </p>
+    </div>
+    """
+    st.markdown(img_html, unsafe_allow_html=True)
+
 
 
 
