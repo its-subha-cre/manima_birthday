@@ -179,32 +179,39 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Slides data
-count = st_autorefresh(interval=3000, limit=None, key="slideshow")
+import streamlit as st
+import time, os
 
-# Slides data
+# -------- Base Path --------
+BASE_DIR = os.path.dirname(__file__)
+
+# -------- Slides Data --------
 slides = [
-    {"img": "manima_poribarer_sathe.jpg", "caption": "মানিমা পরিবারের সাথে"},
-    
-    {"img": "manima_tar_barite.jpg", "caption": "মানিমা তার বাড়িতে"},
-    {"img": "manima_borodidir_sathe.jpeg", "caption": "মানিমা বড়দিদির সাথে"},
-    {"img": "manima_mahisadal_rajbariir_samne.jpeg", "caption": "মানিমা মহিষাদল রাজবাড়ির সামনে"},
-    {"img": "manima_amr_sathe.jpg", "caption": "মানিমা আমার সাথে"},
-    {"img": "manima_meshomonir_Sathe.jpeg", "caption": "মানিমা মেশোমণির সাথে"},
-    {"img": "manima_tar_mejoboner_sathe.jpeg", "caption": "মানিমা মেজোবোনের সাথে"},
-    {"img": "manima_mahisadal_rajbariir_samne.jpeg", "caption": "মানিমা মহিষাদল রাজবাড়ির সামনে"},
-    {"img": "purono_manima.jpeg", "caption": "পুরোনো মানিমা"},
-    {"img": "manima_tar_mayer_sathe.jpeg", "caption": "মানিমা তার মায়ের সাথে"},
+    {"img": os.path.join(BASE_DIR, "images/manima_poribarer_sathe.jpg"), "caption": "মানিমা পরিবারের সাথে"},
+    {"img": os.path.join(BASE_DIR, "images/manima_tar_barite.jpg"), "caption": "মানিমা তার বাড়িতে"},
+    {"img": os.path.join(BASE_DIR, "images/manima_borodidir_sathe.jpeg"), "caption": "মানিমা বড়দিদির সাথে"},
+    {"img": os.path.join(BASE_DIR, "images/manima_mahisadal_rajbariir_samne.jpeg"), "caption": "মানিমা মহিষাদল রাজবাড়ির সামনে"},
+    {"img": os.path.join(BASE_DIR, "images/manima_amr_sathe.jpg"), "caption": "মানিমা আমার সাথে"},
+    {"img": os.path.join(BASE_DIR, "images/manima_meshomonir_Sathe.jpeg"), "caption": "মানিমা মেশোমণির সাথে"},
+    {"img": os.path.join(BASE_DIR, "images/manima_tar_mejoboner_sathe.jpeg"), "caption": "মানিমা মেজোবোনের সাথে"},
+    {"img": os.path.join(BASE_DIR, "images/manima_mahisadal_rajbariir_samne.jpeg"), "caption": "মানিমা মহিষাদল রাজবাড়ির সামনে"},
+    {"img": os.path.join(BASE_DIR, "images/purono_manima.jpeg"), "caption": "পুরোনো মানিমা"},
+    {"img": os.path.join(BASE_DIR, "images/manima_tar_mayer_sathe.jpeg"), "caption": "মানিমা তার মায়ের সাথে"},
 ]
 
+# -------- Slideshow Logic --------
+st.title("🎉 মানিমার বিশেষ স্লাইডশো 🎉")
 
-index = count % len(slides)
+index = int(time.time() / 3) % len(slides)   # প্রতি 3 সেকেন্ডে slide পাল্টাবে
 current = slides[index]
 
-st.image(current["img"], use_container_width=True)
-st.markdown(
-    f"<p style='text-align:center; font-size:18px; color:darkblue;'>{current['caption']}</p>",
-    unsafe_allow_html=True
-)
+st.image(current["img"], caption=current["caption"], use_container_width=True)
+
+
+
+
+
+
 
 # -------------------- Map --------------------
 # -------------------- Map --------------------
