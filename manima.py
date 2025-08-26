@@ -184,65 +184,62 @@ import time, os
 
 # -------- Base Path --------
 import streamlit as st
-import time
 import base64
+import time
 from pathlib import Path
 
-# -------- Init Session State --------
+# সব ফটো + ক্যাপশন
+slides = [
+    ("manima_amr_sathe.jpg", "মানিমা আমার সাথে"),
+    ("manima_borodidir_sathe.jpeg", "মানিমা বড়দিদির সাথে"),
+    ("manima_mahisadal_rajbariir_samne.jpeg", "মানিমা মহিষাদল রাজবাড়ির সামনে"),
+    ("manima_meshomonir_Sathe.jpeg", "মানিমা মেশোমণির সাথে"),
+    ("manima_poribarer_sathe.jpg", "মানিমা পরিবারের সাথে"),
+    ("manima_tar_barite.jpg", "মানিমা তার বাড়িতে"),
+    # ("manima_tar_didir_sathe.jpg", "মানিমা দিদির সাথে"),
+    ("manima_tar_mayer_sathe.jpeg", "মানিমা তার মায়ের সাথে"),
+    ("manima_tar_mejoboner_sathe.jpeg", "মানিমা মেজোবোনের সাথে"),
+    ("manima_tar_poribar.jpeg", "মানিমা তার পরিবারের সাথে"),
+    ("manima.jpg", "আমাদের প্রিয় মানিমা"),
+]
+
+# autoplay once
 if "slideshow_played" not in st.session_state:
     st.session_state.slideshow_played = False
 
-# -------- Image List --------
-image_files = [
-    Path("manima_amr_sathe.jpg"),
-    Path("manima_borodidir_sathe.jpeg"),
-    Path("manima_mahisadal_rajbariir_samne.jpeg"),
-    Path("manima_meshomonir_Sathe.jpeg"),
-    Path("manima_poribarer_sathe.jpg"),
-    Path("manima_tar_barite.jpg"),
-    Path("manima_tar_didir _sathe.jpg"),
-    Path("manima_tar_mayer_sathe.jpeg"),
-    Path("manima_tar_mejoboner_sathe.jpeg"),
-    Path("manima_tar_poribar.jpeg"),
-    Path("manima.jpg"),
-]
-
-# -------- Slideshow --------
-st.title("🌸 মানিমার জন্য বিশেষ স্লাইডশো 🌸")
+def image_to_html(img_path, caption):
+    with open(img_path, "rb") as f:
+        encoded = base64.b64encode(f.read()).decode()
+    return f"""
+    <div style='text-align:center;'>
+        <img src="data:image/jpeg;base64,{encoded}" 
+             style="height:400px; border-radius:16px; box-shadow:0 4px 12px rgba(0,0,0,0.3);" />
+        <p style='color:#FF1493; font-size:18px; font-weight:bold; margin-top:8px;'>{caption}</p>
+    </div>
+    """
 
 if not st.session_state.slideshow_played:
     ph = st.empty()
-    for img in image_files:
-        with open(str(img), "rb") as image_file:
-            encoded_string = base64.b64encode(image_file.read()).decode()
-        img_html = f"""
-        <div style='text-align:center;'>
-            <img src="data:image/jpeg;base64,{encoded_string}" 
-                 style="height:400px; border-radius:12px; box-shadow:0px 4px 12px rgba(0,0,0,0.3);" />
-            <p style='color:#FF1493; font-weight:bold; font-size:18px; margin-top:10px;'>
-                ❤️ মা – ছোটো থেকে বড়ো হয়ে ওঠার কিছু মুহূর্ত
-            </p>
-        </div>
-        """
-        ph.markdown(img_html, unsafe_allow_html=True)
-        time.sleep(3)
+    for img, cap in slides:
+        img_path = Path(img)
+        if img_path.exists():
+            html = image_to_html(str(img_path), cap)
+            ph.markdown(html, unsafe_allow_html=True)
+            time.sleep(3)
+        else:
+            st.error(f"❌ ফাইল পাওয়া যায়নি: {img}")
     st.session_state.slideshow_played = True
-
 else:
-    # Last image stays after autoplay
-    last_img = image_files[-1]
-    with open(str(last_img), "rb") as image_file:
-        encoded_string = base64.b64encode(image_file.read()).decode()
-    img_html = f"""
-    <div style='text-align:center;'>
-        <img src="data:image/jpeg;base64,{encoded_string}" 
-             style="height:400px; border-radius:12px; box-shadow:0px 4px 12px rgba(0,0,0,0.3);" />
-        <p style='color:#FF1493; font-weight:bold; font-size:18px; margin-top:10px;'>
-            ❤️ মা – {last_img.name}
-        </p>
-    </div>
-    """
-    st.markdown(img_html, unsafe_allow_html=True)
+    # শেষ ছবি দেখাবে
+    last_img, last_cap = slides[-1]
+    img_path = Path(last_img)
+    if img_path.exists():
+        html = image_to_html(str(img_path), last_cap)
+        st.markdown(html, unsafe_allow_html=True)
+    else:
+        st.error(f"❌ ফাইল পাওয়া যায়নি: {last_img}")
+
+
 
 
 
@@ -253,6 +250,13 @@ else:
 
 # -------------------- Map --------------------
 # -------------------- Map --------------------
+import streamlit as st
+import folium
+from streamlit_folium import st_folium
+
+# st.set_page_config(page_title="মানিমার জন্মস্থান", layout="centered")
+
+# শিরোনাম
 st.markdown("""
 <div style='
     text-align: center;
@@ -260,14 +264,17 @@ st.markdown("""
     font-size: 28px;
     font-weight: bold;
     margin-top: 10px;
-    margin-bottom: -10px;
-    padding-top: 10px;
+    margin-bottom: -5px;
+    padding-top: 5px;
 '>
     📸 তোমার জন্মস্থান
 </div>
 """, unsafe_allow_html=True)
-birthplace = [22.3810, 87.9025]  # মানিমার জন্মস্থান (সঠিক co-ordinate দাও)
 
+# জন্মস্থান কো-অর্ডিনেট
+birthplace = [22.3810, 87.9025]  # এখানে আসল co-ordinate দাও
+
+# ম্যাপ বানানো
 m = folium.Map(
     location=birthplace,
     zoom_start=12,
@@ -275,20 +282,35 @@ m = folium.Map(
     prefer_canvas=True
 )
 
-# Marker with popup + tooltip
+# মার্কার
 folium.Marker(
     location=birthplace,
     popup="🎂 এখানে তোমার জন্মস্থান!",
     tooltip="🎈 মানিমার জন্মস্থান"
 ).add_to(m)
 
-# Render map in responsive way for mobile
+# ম্যাপ রেন্ডার করা (responsive)
 st_data = st_folium(
     m,
-    width="100%",   # full responsive width
-    height=300,     # ছোট height for mobile
+    width="100%",    # পুরো স্ক্রিন জুড়ে যাবে
+    height=200,      # মোবাইলের জন্য ছোট height
     returned_objects=[]
 )
+
+# CSS দিয়ে নিচের ফাঁকা gap কেটে দেওয়া
+st.markdown("""
+    <style>
+        iframe {
+            display: block;
+            margin: 0 auto;
+            margin-bottom: -40px !important; /* নিচের সাদা ফাঁকা কমাবে */
+            border-radius: 12px; /* সুন্দর rounded corner */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2); /* একটু shadow সুন্দর দেখাতে */
+        }
+    </style>
+""", unsafe_allow_html=True)
+ # মানিমার জন্মস্থান (সঠিক co-ordinate দাও)
+
 
 
 # -------------------- Surprise Letter --------------------
