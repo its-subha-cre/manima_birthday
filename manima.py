@@ -194,21 +194,17 @@ if "slideshow_played" not in st.session_state:
 
 # -------- Image List --------
 image_files = [
-    Path("IMG_20250814_131006557_HDR (1).jpg"),
-    Path("IMG_20250814_131010777_HDR (1).jpg"),
-    Path("IMG_20250814_131228251_HDR (1).jpg"),
-    Path("IMG_20250814_131240651_HDR (1).jpg"),
-    Path("IMG_20250814_131304967_HDR (1).jpg"),
-    Path("IMG_20250814_131314266_HDR (1).jpg"),
-    Path("IMG_20250814_131333936_HDR (1).jpg"),
-    Path("IMG_20250814_131347993_HDR (1).jpg"),
-    Path("IMG_20250814_131351182_HDR (1).jpg"),
-    Path("IMG_20250814_131357386_HDR (1).jpg"),
-    Path("IMG_20250814_131502428_HDR.jpg"),
-    Path("IMG_20250814_132259749_HDR (1) (1).jpg"),
-    Path("IMG_20250814_132405431_HDR (1).jpg"),
-    Path("IMG_20250814_132724222_HDR (1) (1).jpg"),
-    Path("IMG_20250814_132735942_HDR (1).jpg"),
+    Path("manima_amr_sathe.jpg"),
+    Path("manima_borodidir_sathe.jpeg"),
+    Path("manima_mahisadal_rajbariir_samne.jpeg"),
+    Path("manima_meshomonir_Sathe.jpeg"),
+    Path("manima_poribarer_sathe.jpg"),
+    Path("manima_tar_barite.jpg"),
+    Path("manima_tar_didir _sathe.jpg"),
+    Path("manima_tar_mayer_sathe.jpeg"),
+    Path("manima_tar_mejoboner_sathe.jpeg"),
+    Path("manima_tar_poribar.jpeg"),
+    Path("manima.jpg"),
 ]
 
 # -------- Slideshow --------
