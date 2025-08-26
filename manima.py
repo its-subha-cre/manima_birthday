@@ -184,7 +184,7 @@ count = st_autorefresh(interval=3000, limit=None, key="slideshow")
 # Slides data
 slides = [
     {"img": "manima_poribarer_sathe.jpg", "caption": "মানিমা পরিবারের সাথে"},
-    {"img": "manima.jpg", "caption": "মানিমা"},
+    
     {"img": "manima_tar_barite.jpg", "caption": "মানিমা তার বাড়িতে"},
     {"img": "manima_borodidir_sathe.jpeg", "caption": "মানিমা বড়দিদির সাথে"},
     {"img": "manima_mahisadal_rajbariir_samne.jpeg", "caption": "মানিমা মহিষাদল রাজবাড়ির সামনে"},
