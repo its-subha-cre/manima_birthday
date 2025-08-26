@@ -1,0 +1,409 @@
+import streamlit as st
+import time
+import folium
+from streamlit_folium import st_folium
+from datetime import datetime
+import random
+st.set_page_config(page_title="Happy Birthday manima!", page_icon="🎉", layout="centered")
+import base64
+BIRTHDAY_DATE = datetime(2026, 8, 27, 0, 0, 0)
+MOM_NAME = "Manima ❤️"
+BIRTHDAY_TEXT = "🎉 শুভ জন্মদিন মানিমা! 🎂"
+def encode_video(video_path):
+    with open(video_path, "rb") as f:
+        video_bytes = f.read()
+    return base64.b64encode(video_bytes).decode()
+
+video_base64 = encode_video("PixVerse_V4.5_Image_Text_360P_i_want_the_video.mp4")  # You need to define this function
+
+# video_base64 = encode_video("intro.mp4")  # Your encoded video string
+
+st.markdown(f"""
+    <style>
+    #loader {{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: white;
+        z-index: 9999;
+        animation: fadeOut 1s ease-in-out 4s forwards;
+
+        /* Flexbox centering */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }}
+
+    .intro-video {{
+        width: 300px;
+        height: auto;
+    }}
+
+    @keyframes fadeOut {{
+        to {{
+            opacity: 0;
+            visibility: hidden;
+        }}
+    }}
+    </style>
+
+    <div id="loader">
+        <video class="intro-video" autoplay muted>
+            <source src="data:video/mp4;base64,{video_base64}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+""", unsafe_allow_html=True)
+
+
+
+def set_background(image_file):
+    with open(image_file, "rb") as img_file:
+        encoded = base64.b64encode(img_file.read()).decode()
+    css = f"""
+    <style>
+    .stApp {{
+        background-image: url("data:image/jpeg;base64,{encoded}");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-attachment: fixed;
+        background-color: white;
+    }}
+    </style>
+    """
+    st.markdown(css, unsafe_allow_html=True)
+
+set_background("IMG-20250826-WA0078.jpg")
+
+# message = """
+# 💖 পৃথিবীর সবচেয়ে ভালো মা,  
+# তোমার অফুরন্ত ভালোবাসা, সহায়তা ও যত্নের জন্য অসীম কৃতজ্ঞতা।  
+# তুমি আমার পথপ্রদর্শক আলো এবং সবচেয়ে বড় অনুপ্রেরণা।  
+# তোমার প্রতি আমার গভীর শ্রদ্ধা রয়েছে।  
+# তোমার জীবন হাসি, আনন্দ ও আশীর্বাদে ভরে উঠুক আজ এবং প্রতিদিন।  
+
+# **আমি তোমাকে চিরদিন ভালোবাসব! ❤️**
+# """
+# placeholder = st.empty()
+# typed = ""
+# for char in message:
+#     typed += char
+#     colored_text = f"<span style='color:#FF69B4; font-size:20px; font-weight:600;'>{typed}</span>"
+#     placeholder.markdown(colored_text, unsafe_allow_html=True)
+#     time.sleep(0.03)
+# -------------------- Balloons CSS --------------------
+st.markdown("""
+<style>
+@keyframes float {
+    0% { transform: translateY(100vh) scale(1); opacity: 1; }
+    100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+}
+.balloon {
+    position: fixed;
+    bottom: -150px;
+    width: 40px;
+    height: 60px;
+    background: red;
+    border-radius: 50%;
+    animation: float 6s linear infinite;
+    z-index: 999;
+}
+.balloon:before {
+    content: '';
+    position: absolute;
+    top: 60px;
+    left: 18px;
+    width: 4px;
+    height: 40px;
+    background: black;
+}
+</style>
+<div class="balloon" style="left: 10%; animation-delay: 0s;"></div>
+<div class="balloon" style="left: 30%; background: blue; animation-delay: 2s;"></div>
+<div class="balloon" style="left: 50%; background: green; animation-delay: 4s;"></div>
+<div class="balloon" style="left: 70%; background: purple; animation-delay: 1s;"></div>
+<div class="balloon" style="left: 90%; background: orange; animation-delay: 3s;"></div>
+""", unsafe_allow_html=True)
+
+# -------------------- Typewriter --------------------
+def rainbow_text(text):
+    colors = ["#FF69B4", "#FF4500", "#FFD700", "#ADFF2F", "#00CED1", "#1E90FF", "#BA55D3"]
+    result = ""
+    for letter in text:
+        if letter != " ":
+            result += f"<span style='color:{random.choice(colors)}; font-size: 48px; font-weight: bold;'>{letter}</span>"
+        else:
+            result += " "
+    return f"<div style='text-align: center;'>{result}</div>"
+
+st.markdown(rainbow_text(BIRTHDAY_TEXT), unsafe_allow_html=True)
+st.balloons()
+
+# =========================
+# 📅 COUNTDOWN
+# =========================
+now = datetime.now()
+if now < BIRTHDAY_DATE:
+    diff = BIRTHDAY_DATE - now
+    countdown_text = f"⏳ পরের জন্মদিন আসতে কতদিন বাকি : {diff.days} days, {diff.seconds//3600} hours, {(diff.seconds//60)%60} minutes, {diff.seconds%60} seconds left!"
+    st.markdown(f"<h3 style='color:#00FFFF;'>{countdown_text}</h3>", unsafe_allow_html=True)
+else:
+    st.markdown("<h3 style='color:#FF69B4;'>🎂 Today is the Big Day! Happy Birthday, Manima! 💐</h3>", unsafe_allow_html=True)
+# -------------------- Slideshow --------------------
+
+
+import streamlit as st
+import time
+import folium
+from streamlit_folium import st_folium
+from streamlit_autorefresh import st_autorefresh
+
+
+# st.set_page_config(layout="centered")
+
+st.markdown("""
+<div style='
+    text-align: center;
+    color: #FF1493;
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: -10px;
+    padding-top: 10px;
+'>
+    📸 তোমার কিছু হারিয়ে যাওয়া ছবি
+</div>
+""", unsafe_allow_html=True)
+
+# Slides data
+import streamlit as st
+import time, os
+
+# -------- Base Path --------
+import streamlit as st
+import base64
+import time
+from pathlib import Path
+
+# সব ফটো + ক্যাপশন
+slides = [
+    ("manima_amr_sathe.jpg", "মানিমা আমার সাথে"),
+    ("manima_borodidir_sathe.jpeg", "মানিমা বড়দিদির সাথে"),
+    ("manima_mahisadal_rajbariir_samne.jpeg", "মানিমা মহিষাদল রাজবাড়ির সামনে"),
+    ("manima_meshomonir_Sathe.jpeg", "মানিমা মেশোমণির সাথে"),
+    ("manima_poribarer_sathe.jpg", "মানিমা পরিবারের সাথে"),
+    ("manima_tar_barite.jpg", "মানিমা তার বাড়িতে"),
+    # ("manima_tar_didir_sathe.jpg", "মানিমা দিদির সাথে"),
+    ("manima_tar_mayer_sathe.jpeg", "মানিমা তার মায়ের সাথে"),
+    ("manima_tar_mejoboner_sathe.jpeg", "মানিমা মেজোবোনের সাথে"),
+    ("manima_tar_poribar.jpeg", "মানিমা তার পরিবারের সাথে"),
+    ("manima.jpg", "আমাদের প্রিয় মানিমা"),
+]
+
+# autoplay once
+if "slideshow_played" not in st.session_state:
+    st.session_state.slideshow_played = False
+
+def image_to_html(img_path, caption):
+    with open(img_path, "rb") as f:
+        encoded = base64.b64encode(f.read()).decode()
+    return f"""
+    <div style='text-align:center;'>
+        <img src="data:image/jpeg;base64,{encoded}" 
+             style="height:400px; border-radius:16px; box-shadow:0 4px 12px rgba(0,0,0,0.3);" />
+        <p style='color:#FF1493; font-size:18px; font-weight:bold; margin-top:8px;'>{caption}</p>
+    </div>
+    """
+
+if not st.session_state.slideshow_played:
+    ph = st.empty()
+    for img, cap in slides:
+        img_path = Path(img)
+        if img_path.exists():
+            html = image_to_html(str(img_path), cap)
+            ph.markdown(html, unsafe_allow_html=True)
+            time.sleep(3)
+        else:
+            st.error(f"❌ ফাইল পাওয়া যায়নি: {img}")
+    st.session_state.slideshow_played = True
+else:
+    # শেষ ছবি দেখাবে
+    last_img, last_cap = slides[-1]
+    img_path = Path(last_img)
+    if img_path.exists():
+        html = image_to_html(str(img_path), last_cap)
+        st.markdown(html, unsafe_allow_html=True)
+    else:
+        st.error(f"❌ ফাইল পাওয়া যায়নি: {last_img}")
+
+
+
+
+
+
+
+
+
+
+# -------------------- Map --------------------
+# -------------------- Map --------------------
+import streamlit as st
+import folium
+from streamlit_folium import st_folium
+
+# st.set_page_config(page_title="মানিমার জন্মস্থান", layout="centered")
+
+# শিরোনাম
+st.markdown("""
+<div style='
+    text-align: center;
+    color: #FF1493;
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: -5px;
+    padding-top: 5px;
+'>
+    📸 তোমার জন্মস্থান
+</div>
+""", unsafe_allow_html=True)
+
+# জন্মস্থান কো-অর্ডিনেট
+birthplace = [22.3810, 87.9025]  # এখানে আসল co-ordinate দাও
+
+# ম্যাপ বানানো
+m = folium.Map(
+    location=birthplace,
+    zoom_start=12,
+    control_scale=True,
+    prefer_canvas=True
+)
+
+# মার্কার
+folium.Marker(
+    location=birthplace,
+    popup="🎂 এখানে তোমার জন্মস্থান!",
+    tooltip="🎈 মানিমার জন্মস্থান"
+).add_to(m)
+
+# ম্যাপ রেন্ডার করা (responsive)
+st_data = st_folium(
+    m,
+    width="100%",    # পুরো স্ক্রিন জুড়ে যাবে
+    height=200,      # মোবাইলের জন্য ছোট height
+    returned_objects=[]
+)
+
+# CSS দিয়ে নিচের ফাঁকা gap কেটে দেওয়া
+st.markdown("""
+    <style>
+        iframe {
+            display: block;
+            margin: 0 auto;
+            margin-bottom: -40px !important; /* নিচের সাদা ফাঁকা কমাবে */
+            border-radius: 12px; /* সুন্দর rounded corner */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2); /* একটু shadow সুন্দর দেখাতে */
+        }
+    </style>
+""", unsafe_allow_html=True)
+ # মানিমার জন্মস্থান (সঠিক co-ordinate দাও)
+
+
+
+# -------------------- Surprise Letter --------------------
+
+import os
+
+st.markdown("""
+<div style='
+    text-align: center;
+    color: #FF1493;
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: -10px;
+    padding-top: 10px;
+'>
+    ## 📚 তোমার জন্য বিশেষ গল্পের কালেকশন
+</div>
+""", unsafe_allow_html=True)
+
+# Folder containing the PDF stories
+pdf_files = [
+    "রাতটা কিন্তু অনন্যার ঘুম হল না। ঘুমিয়েছিল বটে.pdf",
+    "রেবতী সন্ন্যাসীর স্ত্রী। সন্ন্যাসীর অবশ্য স্ত্রী থাকা সম্ভব নয়.pdf",
+    "শ্রেষ্ঠ উর্দুগল্প ২য় খণ্ড.pdf",
+    "শ্রেষ্ঠ গল্প  ।।  মানিক বন্দ্যোপাধ্যায়.pdf",
+    "শ্রেষ্ঠ গল্প ।। সতীনাথ ভাদুরী.pdf",
+    "শ্রেষ্ঠ গল্প ।। হাসান আজিজুল হক.pdf",
+    "শ্রেষ্ঠ ব্যঙ্গ গল্প ।। পরিমল গোস্বামী.pdf",
+    "শ্রেষ্ঠ গল্প ।। মহাশ্বেতা দেবী.pdf",
+    "শ্রেষ্ঠ গল্প ১ম পর্ব  ।।  সুচিত্রা ভট্টাচার্য_compressed.pdf",
+    "শ্রেষ্ঠ গল্প  ।। জয়া মিত্র.pdf",
+]
+
+for file in pdf_files:
+    # Strip .pdf to make button label clean
+    label = os.path.splitext(file)[0]
+    with open(file, "rb") as f:
+        st.download_button(
+            label=f"📖 Read: {label}",
+            data=f.read(),
+            file_name=file,
+            mime="application/pdf"
+        )
+st.markdown("""
+<div style='
+    text-align: center;
+    color: #FF1493;
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: -10px;
+    padding-top: 10px;
+'>
+    ### 🎼 তোমার জন্য একটা গান"
+</div>
+""", unsafe_allow_html=True) 
+audio_file = open("শুভ জন্মদিন মানিমা.mp3", "rb")
+audio_bytes = audio_file.read()
+st.audio(audio_bytes, format="audio/mp3", start_time=0)     
+import time
+
+st.markdown("""
+        <div style="
+            background-color: #fff8dc;  
+            border: 2px solid #f1c40f;  
+            border-radius: 12px;  
+            padding: 20px;  
+            box-shadow: 0px 8px 20px rgba(0,0,0,0.2);
+            max-width: 600px;
+            margin: 30px auto;
+            font-family: 'Georgia', serif;
+            font-size: 20px;
+            color: #333;
+            line-height: 1.6;
+            animation: fadeIn 1s ease-in-out;
+        ">
+            ✨ প্রিয় মানিমা,<br><br>
+এই বিশেষ দিনে তোমাকে জানাই হৃদয়ভরা শুভেচ্ছা ও ভালোবাসা।<br><br>
+প্রতিটা মুহূর্ত তোমার মুখের হাসিতে ভরে উঠুক, আর আগামী দিনগুলো হোক আশীর্বাদময় ও শান্তিময়।<br><br>
+❤️ ভালোবাসা ও শ্রদ্ধা সহ,<br>
+তোমার মানি 💖
+    """, unsafe_allow_html=True)
+st.markdown("""
+<div style='
+    text-align: center; 
+    font-size: 18px; 
+    color: #ff1493; 
+    background-color: #fff0f5; 
+    padding: 8px 12px; 
+    border-radius: 8px; 
+    font-weight: bold;
+'>
+    Made with ❤️ love by <span style='color:#ff4500;'>Mani ❤️</span>
+</div>
+""", unsafe_allow_html=True)
